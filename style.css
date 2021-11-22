@@ -4,10 +4,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
 
 body {
-	background-image: url("./IMAGES/bgimage.gif");
 	background-color: #ffffff;
-	background-image: url("./IMAGES/bgimage.gif");   
-	background-size: auto;
+	background-image: url("./IMAGES/ScreamingNeonSkulls.png");   
+	background-size: cover;
 	background-attachment: fixed;
 	background-position: center; 
 }
@@ -53,8 +52,10 @@ div {
 }
 
 .LOGODIV {
-	position: relative;
-	width: 720px;
+	position: left;
+	margin-bottom: auto;
+	margin-top: 108px;
+	width: 540px;
 	height: 360px;
 }
 
@@ -66,7 +67,7 @@ div {
 	margin-top: 64px;
 	margin-bottom: 64px;
 	background-color: rgba(0, 0, 0, 0.7); 
-	width: 720px;
+	width: auto;
 	height: 720px;
 	overflow-x: hidden;
 	overflow-y: auto;
