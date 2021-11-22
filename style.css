@@ -52,10 +52,9 @@ div {
 }
 
 .LOGODIV {
-	position: left;
-	margin-bottom: 64px;
-	margin-top: 64px;
-	width: 540px;
+	position: center;
+	margin-right: auto;
+	width: auto;
 	height: 360px;
 }
 
