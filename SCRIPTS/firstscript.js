@@ -1,0 +1,1 @@
+/* firstscript.ja javascript by Nate Wyatt */
