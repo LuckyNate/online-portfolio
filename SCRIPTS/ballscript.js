@@ -4,7 +4,7 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 ctx.fillStyle = "#111111";
 const width = canvas.width = window.innerWidth;
-const height = canvas.height = window.innerHeight;
+const height = canvas.height = window.innerWidth/2;
 
 function random(min, max) {
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -38,20 +38,20 @@ class Ball{
     }
 
     update = function() {
-        if ((this.xpos + this.size) >= width) {
-            this.xpos = width;
+        if ((this.xpos + this.size) > width) {
+            this.xpos = width-this.size;
             this.xvel = -(this.xvel);
             }
-        if ((this.xpos - this.size) <= 0) {
-            this.xpos = 0;
+        if ((this.xpos-this.size) < 0) {
+            this.xpos = this.size;
             this.xvel = -(this.xvel);
             }
         if ((this.ypos + this.size) >= height) {
-                this.ypos = height;
+                this.ypos = height-this.size;
                 this.yvel = -(this.yvel);
             }
         if ((this.ypos - this.size) <= 0) {
-                this.ypos = 0;
+                this.ypos = this.size;
                 this.yvel = -(this.xvel);
                 }
         this.xpos += this.xvel;
@@ -64,7 +64,7 @@ class Ball{
   var hexcol = "";
   while(ballList.length < 25){
     hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
-    let ball = new Ball(random(1,canvas.width), random(1, canvas.height), random(1,100), random(1,100), hexcol, 10);
+    let ball = new Ball(random(1,canvas.width), random(1, canvas.height), random(1,100), random(1,100), hexcol, random(10, 60));
     ball.update();
     ball.draw();
     ballList.push(ball);
