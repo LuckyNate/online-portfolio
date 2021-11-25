@@ -68,7 +68,7 @@ function init(){
     var hexcol = "";
     while(ballList.length < 100){
         hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
-        let ball = new Ball(random(1,width), random(1,height), random(1,4), random(1,4), hexcol, random(2, 12));
+        let ball = new Ball(random(1,width), random(1,height), random(0,4), random(0,4), hexcol, random(1, 11));
         ball.update();
         ball.draw();
         ballList.push(ball);
@@ -89,9 +89,9 @@ function distance(ballA, ballB){
 function checkbounce(ballA){
     for(let j=0; j<ballList.length; j++){
         if(ballA != ballList[j]){
-            if(ballA.size+ballList[j].size > distance(ballA, ballList[j])){
-                ballList[j].xvel = (-ballA.xvel*ballA.size)/ballList[j].size;
-                ballList[j].yvel = (-ballA.yvel*ballA.size)/ballList[j].size;
+            if(ballA.size+ballList[j].size >= distance(ballA, ballList[j])){
+                ballList[j].xvel = -ballA.size*ballA.xvel/ballList[j].size;
+                ballList[j].yvel = -ballA.size*ballA.yvel/ballList[j].size;
             }
         }
     }
@@ -101,9 +101,10 @@ function checkbounce(ballA){
 function gameLoop(){
     ctx.clearRect(0,0,width, height);
     for(let i=0; i < ballList.length; i++){
+        
         ballList[i].update();
-        ballList[i].draw();
         checkbounce(ballList[i]);
+        ballList[i].draw(); 
     } 
     window.requestAnimationFrame(gameLoop);
     
