@@ -3,8 +3,9 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 ctx.fillStyle = "#111111";
-const width = canvas.width = window.innerWidth;
-const height = canvas.height = window.innerWidth/2;
+const width = canvas.width = 900;
+const height = canvas.height = 600;
+var ballList = [];  
 
 function random(min, max) {
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -31,18 +32,20 @@ class Ball{
     }
   
     draw = function() {
+        
+        ctx.fill();
         ctx.beginPath();
         ctx.fillStyle = this.color;
         ctx.arc(this.xpos, this.ypos, this.size, 0, 2 * Math.PI);
-        ctx.fill();
+        
     }
 
     update = function() {
-        if ((this.xpos + this.size) > width) {
+        if ((this.xpos + this.size) >= width) {
             this.xpos = width-this.size;
             this.xvel = -(this.xvel);
             }
-        if ((this.xpos-this.size) < 0) {
+        if ((this.xpos) <= this.size) {
             this.xpos = this.size;
             this.xvel = -(this.xvel);
             }
@@ -50,26 +53,44 @@ class Ball{
                 this.ypos = height-this.size;
                 this.yvel = -(this.yvel);
             }
-        if ((this.ypos - this.size) <= 0) {
+        if ((this.ypos) <= this.size) {
                 this.ypos = this.size;
-                this.yvel = -(this.xvel);
+                this.yvel = -(this.yvel);
                 }
         this.xpos += this.xvel;
         this.ypos += this.yvel;
     }
 }  
-        
-  
-  var ballList = [];
-  var hexcol = "";
-  while(ballList.length < 25){
-    hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
-    let ball = new Ball(random(1,canvas.width), random(1, canvas.height), random(1,100), random(1,100), hexcol, random(10, 60));
-    ball.update();
-    ball.draw();
-    ballList.push(ball);
 
-  }
+
+     
+function init(){
+    var hexcol = "";
+    while(ballList.length < 30){
+        hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
+        let ball = new Ball(random(1,width), random(1,height), random(1,12), random(1,12), hexcol, random(1, 30));
+        ball.update();
+        ball.draw();
+        ballList.push(ball);
+    }
+    window.requestAnimationFrame(gameLoop);
+}
+
+function gameLoop(){
+    ctx.clearRect(0,0,width, height);
+    for(let i=0; i < ballList.length; i++){
+    ballList[i].update();
+    ballList[i].draw();
+    } 
+    
+    window.requestAnimationFrame(gameLoop);
+    
+}
+
+init();
+
+
+
 
   
   
