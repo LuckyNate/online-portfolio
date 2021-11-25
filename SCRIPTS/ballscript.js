@@ -3,9 +3,9 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 ctx.fillStyle = "#111111";
-const width = canvas.width = 900;
-const height = canvas.height = 600;
-var ballList = [];  
+const width = canvas.width = 1024;
+const height = canvas.height = 512;
+
 
 function random(min, max) {
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -62,13 +62,13 @@ class Ball{
     }
 }  
 
-
+var ballList = [];  
      
 function init(){
     var hexcol = "";
-    while(ballList.length < 30){
+    while(ballList.length < 100){
         hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
-        let ball = new Ball(random(1,width), random(1,height), random(1,12), random(1,12), hexcol, random(1, 30));
+        let ball = new Ball(random(1,width), random(1,height), random(1,4), random(1,4), hexcol, random(2, 12));
         ball.update();
         ball.draw();
         ballList.push(ball);
@@ -76,13 +76,35 @@ function init(){
     window.requestAnimationFrame(gameLoop);
 }
 
+
+
+function distance(ballA, ballB){
+    x1 = ballA.xpos;
+    y1 = ballA.ypos;
+    x2 = ballB.xpos;
+    y2 = ballB.ypos;
+    return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+}
+
+function checkbounce(ballA){
+    for(let j=0; j<ballList.length; j++){
+        if(ballA != ballList[j]){
+            if(ballA.size+ballList[j].size > distance(ballA, ballList[j])){
+                ballList[j].xvel = (-ballA.xvel*ballA.size)/ballList[j].size;
+                ballList[j].yvel = (-ballA.yvel*ballA.size)/ballList[j].size;
+            }
+        }
+    }
+
+}
+
 function gameLoop(){
     ctx.clearRect(0,0,width, height);
     for(let i=0; i < ballList.length; i++){
-    ballList[i].update();
-    ballList[i].draw();
+        ballList[i].update();
+        ballList[i].draw();
+        checkbounce(ballList[i]);
     } 
-    
     window.requestAnimationFrame(gameLoop);
     
 }
