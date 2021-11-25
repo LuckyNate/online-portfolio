@@ -12,12 +12,12 @@ body {
 }
 
 canvas {
-	position: auto;
+	position: relative;
 	padding-left: 0;
 	padding-right: 0;
 	margin: auto;
 	display: block;
-	width: 800;
+	width: auto;
 	height: auto;
 	background-color: #111111;
 	outline: 2px double #ff0000;
