@@ -83,7 +83,7 @@ function distance(ballA, ballB){
     y1 = ballA.ypos;
     x2 = ballB.xpos;
     y2 = ballB.ypos;
-    return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+    return Math.sqrt((x1-x2)**2+ (y1-y2)**2);
 }
 
 function checkbounce(ballA){
