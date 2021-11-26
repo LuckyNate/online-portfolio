@@ -83,7 +83,7 @@ function distance(ballA, ballB){
     y1 = ballA.ypos;
     x2 = ballB.xpos;
     y2 = ballB.ypos;
-    return Math.sqrt((x1-x2)**2+ (y1-y2)**2);
+    return Math.sqrt((x1-x2)**2 + (y1-y2)**2);
 }
 
 function checkbounce(ballA){
@@ -101,9 +101,8 @@ function checkbounce(ballA){
 function gameLoop(){
     ctx.clearRect(0,0,width, height);
     for(let i=0; i < ballList.length; i++){
-        
-        ballList[i].update();
         checkbounce(ballList[i]);
+        ballList[i].update();
         ballList[i].draw(); 
     } 
     window.requestAnimationFrame(gameLoop);
