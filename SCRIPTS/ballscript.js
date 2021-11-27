@@ -1,11 +1,13 @@
 /* ballscript.js javascript by Nate Wyatt */
 
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-ctx.fillStyle = "#111111";
-const width = canvas.width = 1024;
-const height = canvas.height = 512;
+let ballcanvas = document.getElementById('ballcanvas');
+let ballctx = ballcanvas.getContext('2d');
+ballctx.fillStyle = "#111111";
+let width = ballcanvas.width = window.innerWidth;
+let height = ballcanvas.height = window.innerHeight;
 
+// resize the canvas to fill browser window dynamically
+window.addEventListener('resize', resizeCanvas, false);
 
 function random(min, max) {
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,10 +18,13 @@ function randColor(){
     console.log("#" + Math.floor(Math.random()*16777215).toString(16));
 }
 
-function refresh() {
-    ctx.clearRect(0, 0, width, height);
-    ctx.fillRect(0, 0, width, height);
+function resizeCanvas() {
+    ballcanvas.width = window.innerWidth;
+    ballcanvas.height = window.innerHeight;
+    init();
+
   }
+
  
 class Ball{
     constructor(xpos, ypos, xvel, yvel, color, size) {
@@ -33,10 +38,10 @@ class Ball{
   
     draw = function() {
         
-        ctx.fill();
-        ctx.beginPath();
-        ctx.fillStyle = this.color;
-        ctx.arc(this.xpos, this.ypos, this.size, 0, 2 * Math.PI);
+        ballctx.fill();
+        ballctx.beginPath();
+        ballctx.fillStyle = this.color;
+        ballctx.arc(this.xpos, this.ypos, this.size, 0, 2 * Math.PI);
         
     }
 
@@ -63,7 +68,9 @@ class Ball{
 }  
 
 var ballList = [];  
-     
+var screamingSkull = new Image();   
+screamingSkull.src = "IMAGES/ScreamingNeonSkulls.png";
+
 function init(){
     var hexcol = "";
     while(ballList.length < 100){
@@ -99,11 +106,12 @@ function checkbounce(ballA){
 }
 
 function gameLoop(){
-    ctx.clearRect(0,0,width, height);
+    ballctx.clearRect(0,0, width, height);
+    ballctx.fill();
     for(let i=0; i < ballList.length; i++){
-        checkbounce(ballList[i]);
         ballList[i].update();
         ballList[i].draw(); 
+        checkbounce(ballList[i]);
     } 
     window.requestAnimationFrame(gameLoop);
     
