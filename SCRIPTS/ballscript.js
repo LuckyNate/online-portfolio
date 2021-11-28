@@ -15,7 +15,7 @@ function random(min, max) {
   }
 
 function randColor(){
-    console.log("#" + Math.floor(Math.random()*16777215).toString(16));
+    return("#"+Math.floor(Math.random()*16777215).toString(16));
 }
 
 function resizeCanvas() {
@@ -82,14 +82,10 @@ var ballList = [];
 function init(){
     var hexcol = "";
     while(ballList.length < 100){
-        hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
-        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), hexcol, random(10, 20));
+        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(10, 20));
         if(ball.xvel == 0 || ball.yvel==0){
             ball.move();
         }
-
-        while(ball.yvel == 0)
-        {};
         ball.update();
         ball.draw();
         ballList.push(ball);
@@ -113,7 +109,7 @@ function bounce(ballA){ //fix later
 }
 
 function gameLoop(){
-    ballctx.globalAlpha = .05;
+    ballctx.globalAlpha = 0.04;
     ballctx.fillStyle = "#111111";
     ballctx.fillRect(0,0, width, height);
     for(let i=0; i < ballList.length; i++){
