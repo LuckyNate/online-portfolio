@@ -2,7 +2,7 @@
 
 let ballcanvas = document.getElementById('ballcanvas');
 let ballctx = ballcanvas.getContext('2d');
-ballctx.fillStyle = "#111111";
+
 let width = ballcanvas.width = window.innerWidth;
 let height = ballcanvas.height = window.innerHeight;
 
@@ -35,32 +35,41 @@ class Ball{
         this.color = color;
         this.size = size;
     }
+
+    move = function() {
+        while(this.xvel == 0){
+            this.xvel = random(-4,4);
+        }
+        while(this.yvel == 0){
+            this.yvel = random(-4,4);
+        }
+    }
   
     draw = function() {
-        
-        ballctx.fill();
+        ballctx.globalAlpha = 1.0;
         ballctx.beginPath();
         ballctx.fillStyle = this.color;
         ballctx.arc(this.xpos, this.ypos, this.size, 0, 2 * Math.PI);
+        ballctx.fill();
         
     }
 
     update = function() {
         if ((this.xpos + this.size) >= width) {
             this.xpos = width-this.size;
-            this.xvel = -(this.xvel);
+            this.xvel *= -1;
             }
         if ((this.xpos) <= this.size) {
             this.xpos = this.size;
-            this.xvel = -(this.xvel);
+            this.xvel *= -1;
             }
         if ((this.ypos + this.size) >= height) {
                 this.ypos = height-this.size;
-                this.yvel = -(this.yvel);
+                this.yvel *= -1;
             }
         if ((this.ypos) <= this.size) {
                 this.ypos = this.size;
-                this.yvel = -(this.yvel);
+                this.yvel *= -1;
                 }
         this.xpos += this.xvel;
         this.ypos += this.yvel;
@@ -68,14 +77,19 @@ class Ball{
 }  
 
 var ballList = [];  
-var screamingSkull = new Image();   
-screamingSkull.src = "IMAGES/ScreamingNeonSkulls.png";
+
 
 function init(){
     var hexcol = "";
     while(ballList.length < 100){
         hexcol = ("#"+Math.floor(Math.random()*16777215).toString(16));
-        let ball = new Ball(random(1,width), random(1,height), random(0,4), random(0,4), hexcol, random(1, 11));
+        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), hexcol, random(10, 20));
+        if(ball.xvel == 0 || ball.yvel==0){
+            ball.move();
+        }
+
+        while(ball.yvel == 0)
+        {};
         ball.update();
         ball.draw();
         ballList.push(ball);
@@ -93,28 +107,20 @@ function distance(ballA, ballB){
     return Math.sqrt((x1-x2)**2 + (y1-y2)**2);
 }
 
-function checkbounce(ballA){
-    for(let j=0; j<ballList.length; j++){
-        if(ballA != ballList[j]){
-            if(ballA.size+ballList[j].size >= distance(ballA, ballList[j])){
-                ballList[j].xvel = -ballA.size*ballA.xvel/ballList[j].size;
-                ballList[j].yvel = -ballA.size*ballA.yvel/ballList[j].size;
-            }
-        }
-    }
-
+function bounce(ballA){ //fix later
+        ballA.xvel *= -1;
+        ballA.yvel *= -1;
 }
 
 function gameLoop(){
-    ballctx.clearRect(0,0, width, height);
-    ballctx.fill();
+    ballctx.globalAlpha = .05;
+    ballctx.fillStyle = "#111111";
+    ballctx.fillRect(0,0, width, height);
     for(let i=0; i < ballList.length; i++){
         ballList[i].update();
-        ballList[i].draw(); 
-        checkbounce(ballList[i]);
-    } 
+        ballList[i].draw();
+    }
     window.requestAnimationFrame(gameLoop);
-    
 }
 
 init();
