@@ -34,14 +34,16 @@ class Ball{
         this.yvel = yvel;
         this.color = color;
         this.size = size;
+        this.xmnt = this.xvel*this.size;
+        this.ymnt = this.yvel*this.size;
     }
 
     move = function() {
         while(this.xvel == 0){
-            this.xvel = random(-4,4);
+            this.xvel = random(-1,1);
         }
         while(this.yvel == 0){
-            this.yvel = random(-4,4);
+            this.yvel = random(-1,1);
         }
     }
   
@@ -81,10 +83,11 @@ var ballList = [];
 function init(){
     var hexcol = "";
     while(ballList.length < 100){
-        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(8,8));
+        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(1,16));
+        //uncomment below to force balls to have non-zero velocity
         if(ball.xvel == 0 || ball.yvel==0){
             ball.move();
-        }
+        } 
         ball.update();
         ball.draw();
         ballList.push(ball);
@@ -107,27 +110,27 @@ function bounce(ballA, ballB){ //fix later
     y2 = ballB.ypos;
     if(distance(ballA, ballB) <= ballA.size+ballB.size){
         if(x1 < x2){
-            ballA.xvel = -Math.sqrt(ballB.xvel**2);
-            ballB.xvel = Math.sqrt(ballA.xvel**2);
+            ballA.xvel = -Math.sqrt(ballB.xmnt**2)/ballA.size;
+            ballB.xvel = Math.sqrt(ballA.xmnt**2)/ballB.size;
             ballA.draw();
             ballB.draw();
         }
         else{
-            ballA.xvel = Math.sqrt(ballB.xvel**2);
-            ballB.xvel = -Math.sqrt(ballA.xvel**2);
+            ballA.xvel = Math.sqrt(ballB.ymnt**2)/ballA.size;
+            ballB.xvel = -Math.sqrt(ballA.ymnt**2)/ballB.size;
             ballA.draw();
             ballB.draw();  
         }
 
         if(y1 < y2){
-            ballA.yvel =-Math.sqrt(ballB.yvel**2);
-            ballB.yvel = Math.sqrt(ballA.yvel**2);
+            ballA.yvel =-Math.sqrt(ballB.xmnt**2)/ballA.size;
+            ballB.yvel = Math.sqrt(ballA.ymnt**2)/ballB.size;
             ballA.draw();
             ballB.draw();       
         }
         else{
-            ballA.yvel = Math.sqrt(ballB.yvel**2);
-            ballB.yvel = -Math.sqrt(ballA.yvel**2);
+            ballA.yvel = Math.sqrt(ballB.xmnt**2)/ballA.size;
+            ballB.yvel = -Math.sqrt(ballA.ymnt**2)/ballB.size;
             ballA.draw();
             ballB.draw();
         }
