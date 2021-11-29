@@ -78,11 +78,10 @@ class Ball{
 
 var ballList = [];  
 
-
 function init(){
     var hexcol = "";
     while(ballList.length < 100){
-        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(10, 20));
+        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(8,8));
         if(ball.xvel == 0 || ball.yvel==0){
             ball.move();
         }
@@ -93,8 +92,6 @@ function init(){
     window.requestAnimationFrame(gameLoop);
 }
 
-
-
 function distance(ballA, ballB){
     x1 = ballA.xpos;
     y1 = ballA.ypos;
@@ -103,16 +100,53 @@ function distance(ballA, ballB){
     return Math.sqrt((x1-x2)**2 + (y1-y2)**2);
 }
 
-function bounce(ballA){ //fix later
-        ballA.xvel *= -1;
-        ballA.yvel *= -1;
+function bounce(ballA, ballB){ //fix later
+    x1 = ballA.xpos;
+    y1 = ballA.ypos;
+    x2 = ballB.xpos;
+    y2 = ballB.ypos;
+    if(distance(ballA, ballB) <= ballA.size+ballB.size){
+        if(x1 < x2){
+            ballA.xvel = -Math.sqrt(ballB.xvel**2);
+            ballB.xvel = Math.sqrt(ballA.xvel**2);
+            ballA.draw();
+            ballB.draw();
+        }
+        else{
+            ballA.xvel = Math.sqrt(ballB.xvel**2);
+            ballB.xvel = -Math.sqrt(ballA.xvel**2);
+            ballA.draw();
+            ballB.draw();  
+        }
+
+        if(y1 < y2){
+            ballA.yvel =-Math.sqrt(ballB.yvel**2);
+            ballB.yvel = Math.sqrt(ballA.yvel**2);
+            ballA.draw();
+            ballB.draw();       
+        }
+        else{
+            ballA.yvel = Math.sqrt(ballB.yvel**2);
+            ballB.yvel = -Math.sqrt(ballA.yvel**2);
+            ballA.draw();
+            ballB.draw();
+        }
+    }
 }
 
 function gameLoop(){
-    ballctx.globalAlpha = 0.04;
+    ballctx.globalAlpha = 1.0;
     ballctx.fillStyle = "#111111";
     ballctx.fillRect(0,0, width, height);
     for(let i=0; i < ballList.length; i++){
+        for(j=0; j< ballList.length; j++){
+            if(i==j){
+                continue;
+            }
+            else{
+                bounce(ballList[i], ballList[j]);
+            }
+        }
         ballList[i].update();
         ballList[i].draw();
     }
