@@ -88,56 +88,54 @@ function init(){
         if(ball.xvel == 0 || ball.yvel==0){
             ball.move();
         } 
-        ball.update();
-        ball.draw();
         ballList.push(ball);
+        ball.draw(); 
     }
     window.requestAnimationFrame(gameLoop);
 }
 
+/* global distance function */
 function distance(ballA, ballB){
     x1 = ballA.xpos;
     y1 = ballA.ypos;
     x2 = ballB.xpos;
     y2 = ballB.ypos;
-    return Math.sqrt((x1-x2)**2 + (y1-y2)**2);
+    return Math.floor(Math.sqrt((x1-x2)**2 + (y1-y2)**2));
 }
 
+/* global bounce function */
 function bounce(ballA, ballB){ //fix later
-    x1 = ballA.xpos;
-    y1 = ballA.ypos;
-    x2 = ballB.xpos;
-    y2 = ballB.ypos;
+
+    //check for collisions
     if(distance(ballA, ballB) <= ballA.size+ballB.size){
-        if(x1 < x2){
-            ballA.xvel = -Math.sqrt(ballB.xmnt**2)/ballA.size;
-            ballB.xvel = Math.sqrt(ballA.xmnt**2)/ballB.size;
-            ballA.draw();
+        //swap x momentum
+        if(ballA.xpos < ballB.xpos){
+            ballA.xvel = -Math.abs(ballB.xmnt)/ballA.size;
+            ballB.xvel = Math.abs(ballA.xmnt)/ballB.size;
             ballB.draw();
         }
         else{
-            ballA.xvel = Math.sqrt(ballB.ymnt**2)/ballA.size;
-            ballB.xvel = -Math.sqrt(ballA.ymnt**2)/ballB.size;
-            ballA.draw();
+            ballA.xvel = Math.abs(ballB.ymnt)/ballA.size;
+            ballB.xvel = -Math.abs(ballA.ymnt)/ballB.size;
             ballB.draw();  
         }
-
-        if(y1 < y2){
-            ballA.yvel =-Math.sqrt(ballB.xmnt**2)/ballA.size;
-            ballB.yvel = Math.sqrt(ballA.ymnt**2)/ballB.size;
-            ballA.draw();
-            ballB.draw();       
+        //swap y momentum
+        if(ballA.ypos < ballB.ypos){
+            ballA.yvel =-Math.abs(ballB.xmnt)/ballA.size;
+            ballB.yvel = Math.abs(ballA.ymnt)/ballB.size;
+            ballB.draw();  
         }
         else{
-            ballA.yvel = Math.sqrt(ballB.xmnt**2)/ballA.size;
-            ballB.yvel = -Math.sqrt(ballA.ymnt**2)/ballB.size;
-            ballA.draw();
+            ballA.yvel = Math.abs(ballB.xmnt)/ballA.size;
+            ballB.yvel = -Math.abs(ballA.ymnt)/ballB.size;
             ballB.draw();
         }
     }
 }
 
+/* Main Game Loop */
 function gameLoop(){
+    window.requestAnimationFrame(gameLoop);
     ballctx.globalAlpha = 1.0;
     ballctx.fillStyle = "#111111";
     ballctx.fillRect(0,0, width, height);
@@ -153,7 +151,8 @@ function gameLoop(){
         ballList[i].update();
         ballList[i].draw();
     }
-    window.requestAnimationFrame(gameLoop);
+    
 }
+/* MAIN GAME CODE */
 
 init();
