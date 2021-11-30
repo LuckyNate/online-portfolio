@@ -83,13 +83,12 @@ var ballList = [];
 function init(){
     var hexcol = "";
     while(ballList.length < 100){
-        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(1,16));
+        let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(4,24));
         //uncomment below to force balls to have non-zero velocity
         if(ball.xvel == 0 || ball.yvel==0){
             ball.move();
         } 
         ballList.push(ball);
-        ball.draw(); 
     }
     window.requestAnimationFrame(gameLoop);
 }
@@ -112,23 +111,19 @@ function bounce(ballA, ballB){ //fix later
         if(ballA.xpos < ballB.xpos){
             ballA.xvel = -Math.abs(ballB.xmnt)/ballA.size;
             ballB.xvel = Math.abs(ballA.xmnt)/ballB.size;
-            ballB.draw();
         }
         else{
             ballA.xvel = Math.abs(ballB.ymnt)/ballA.size;
-            ballB.xvel = -Math.abs(ballA.ymnt)/ballB.size;
-            ballB.draw();  
+            ballB.xvel = -Math.abs(ballA.ymnt)/ballB.size; 
         }
         //swap y momentum
         if(ballA.ypos < ballB.ypos){
             ballA.yvel =-Math.abs(ballB.xmnt)/ballA.size;
             ballB.yvel = Math.abs(ballA.ymnt)/ballB.size;
-            ballB.draw();  
         }
         else{
             ballA.yvel = Math.abs(ballB.xmnt)/ballA.size;
             ballB.yvel = -Math.abs(ballA.ymnt)/ballB.size;
-            ballB.draw();
         }
     }
 }
