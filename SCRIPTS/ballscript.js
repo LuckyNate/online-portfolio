@@ -157,12 +157,3 @@ function gameLoop(){
 }
 
 init();
-
-
-
-
-  
-  
-  
-  
-
