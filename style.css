@@ -2,6 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Days+One&display=swap');	
 @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
+
 * {
 	border: 0px;
 	margin: 0px;
@@ -15,8 +16,6 @@ body {
 canvas {
 	position: absolute;
 	background-color: #111111;
-	padding: 0;
-	margin: 0;
 	display: block;
 }
 
