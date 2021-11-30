@@ -2,11 +2,13 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Days+One&display=swap');	
 @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
-
-body {
+* {
 	border: 0px;
 	margin: 0px;
 	padding: 0px;
+}
+
+body {
 	position: absolute fixed;
 }
 
@@ -80,8 +82,8 @@ h3 {
 	font-family: 'Days One', sans-serif;
 	font-size: 48;
 	text-shadow:
-	  0 0 2px #ffffff,
-	  0 0 4px #ff77ff,
+	  0 0 2px #ff77ff,
+	  0 0 4px #ff33ff,
       0 0 8px #ff00ff,
       0 0 16px #ff00ff,
       0 0 32px #ff00ff;
