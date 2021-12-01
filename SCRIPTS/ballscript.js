@@ -82,7 +82,8 @@ var ballList = [];
 
 function init(){
     var hexcol = "";
-    while(ballList.length < 100){
+    numBalls = 100;
+    while(ballList.length < numBalls){
         let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(4,24));
         //uncomment below to force balls to have non-zero velocity
         if(ball.xvel == 0 || ball.yvel==0){
@@ -99,13 +100,28 @@ function distance(ballA, ballB){
     y1 = ballA.ypos;
     x2 = ballB.xpos;
     y2 = ballB.ypos;
-    return Math.floor(Math.sqrt((x1-x2)**2 + (y1-y2)**2));
+    return (Math.sqrt((x1-x2)**2 + (y1-y2)**2));
 }
 
 /* global bounce function */
-function bounce(ballA, ballB){ //fix later
-
-    //check for collisions
+function bounce(ballA, ballB){
+    //check for inclusions (one ball inside another)
+    if(distance(ballA, ballB) < ballA.size && distance(ballA, ballB) < ballB.size){
+        if(ballA.size > ballB.size){
+            ballList.slice(ballB, 0);
+        }
+        if(ballB.size > ballA.size){
+            ballList.slice(ballA, 0);
+        }
+        else{
+            ballList.slice(ballA, 0);
+            ballList.slice(ballB, 0);
+        }
+        while(ballList.length < numBalls){
+            let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(4,24));
+        }
+    }
+    //check for collisions (one ball touching another)
     if(distance(ballA, ballB) <= ballA.size+ballB.size){
         //swap x momentum
         if(ballA.xpos < ballB.xpos){

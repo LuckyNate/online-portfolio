@@ -7,7 +7,7 @@ const brotwidth = brotcanvas.width = window.innerWidth;
 const brotheight = brotcanvas.height = window.innerHeight;
 
 
-function random(min, max) {
+function randomint(min, max) {
     let num = Math.floor(Math.random() * (max - min + 1)) + min;
     return num;
 }
@@ -20,6 +20,8 @@ function refresh(){
     brotctx.clearRect(0,0,brotwidth,brotheight);
 }   
 
+
+
 function init(){
     /* put game setup here */
     window.requestAnimationFrame(gameLoop);
@@ -27,10 +29,10 @@ function init(){
 
 
 function gameLoop(){
-    /* gameloop logic */
-    refresh();
     window.requestAnimationFrame(gameLoop);
-    
+    console.log(MouseEvent)
+    /* gameloop logic */    
+    refresh();
 }
 
 init();
