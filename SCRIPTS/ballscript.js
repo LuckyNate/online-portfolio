@@ -106,7 +106,7 @@ function distance(ballA, ballB){
 /* global bounce function */
 function bounce(ballA, ballB){
     //check for inclusions (one ball inside another)
-    if(distance(ballA, ballB) < ballA.size && distance(ballA, ballB) < ballB.size){
+    if(distance(ballA, ballB) < ballA.size || distance(ballA, ballB) < ballB.size){
         if(ballA.size > ballB.size){
             ballList.slice(ballB, 0);
         }
@@ -119,6 +119,8 @@ function bounce(ballA, ballB){
         }
         while(ballList.length < numBalls){
             let ball = new Ball(random(1,width), random(1,height), random(-8,8), random(-8,8), randColor(), random(4,24));
+            ball.move()
+            ballList.append(ball);
         }
     }
     //check for collisions (one ball touching another)
