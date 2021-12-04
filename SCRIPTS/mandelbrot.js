@@ -1,34 +1,29 @@
 /* Mandelbrot Fractal Zoom - mandelbrot.js by Nate Wyatt */
-
-function randomint(min, max) {
-    let num = Math.floor(Math.random() * (max - min + 1)) + min;
-    return num;
-}
+const brotcanvas = document.getElementById('mandelbrotcanvas');
+const brotctx = brotcanvas.getContext('2d');
+brotctx.backgroundColor = "#111111";
+const brotwidth = brotcanvas.width = window.innerWidth;
+const brotheight = brotcanvas.height = window.innerHeight;
 
 function randColor(){
     console.log("#" + Math.floor(Math.random()*16777215).toString(16));
 }
 
-function refresh(){
+function refresh(){ //resets the canvas to blank
     brotctx.clearRect(0,0,brotwidth,brotheight);
 }   
 
-function getMouse(){
+function getMouse(){ // fix this to get mouseX, mouseY
     console.log(MouseEvent);
 }
 
 function setup(){
-    /* put canvas and const setup here */
-    const brotcanvas = document.getElementById('mandelbrotcanvas');
-    const brotctx = brotcanvas.getContext('2d');
-    brotctx.backgroundColor = "#111111";
-    const brotwidth = brotcanvas.width = window.innerWidth;
-    const brotheight = brotcanvas.height = window.innerHeight;
+
 
     //Setup the screen coords between -2 and +2;
     for(var x=0; x<brotwidth; x++){
         for(var y=0; y<brotheight; x++){
-            var mapX = map(x, 0, brotwidth,-2*(brotheight/brotwidth), 2*(brotheight/brotwidth));
+            var mapX = map(x, 0, brotwidth,-2*(brotwidth/brotheight), 2*(brotwidth/brotheight));
             var mapY = map(y, 0, brotheight, -2, 2);
         }
     //initialize the variables
@@ -45,6 +40,7 @@ function setup(){
             n++;
         }
         if (n === 100){
+
             
         }
     }
@@ -56,7 +52,7 @@ function setup(){
 function gameLoop(){
     window.requestAnimationFrame(gameLoop);
     /* gameloop logic */    
-    refresh();
 }
+
 setup();
 
